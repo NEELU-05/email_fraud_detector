@@ -3,6 +3,16 @@ FastAPI application for Email Fraud Detection.
 Provides REST API endpoint for fraud prediction.
 """
 
+import sys
+import io
+# Fix Windows console encoding - prevents "charmap" errors with unicode
+if sys.platform == 'win32':
+    try:
+        sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
+        sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='replace')
+    except Exception:
+        pass
+
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
@@ -157,8 +167,9 @@ async def predict_fraud(request: EmailRequest):
         FraudResponse with fraud probability, verdict, and detailed scores
     """
     try:
-        email_text = request.email_text
-        
+        email_text = request.email_text or " "
+        email_text = str(email_text).strip().strip('\ufeff')  # Strip BOM
+
         # Step 1: Preprocess text and extract URLs
         cleaner = get_text_cleaner()
         processed_text, urls = cleaner.preprocess(email_text)
@@ -206,9 +217,14 @@ async def predict_fraud(request: EmailRequest):
         return response
         
     except Exception as e:
+        err_msg = str(e)
+        try:
+            err_msg = err_msg.encode('ascii', 'replace').decode('ascii')
+        except Exception:
+            err_msg = "Prediction failed (encoding error)"
         raise HTTPException(
             status_code=500,
-            detail=f"Prediction failed: {str(e)}"
+            detail=f"Prediction failed: {err_msg}"
         )
 
 
