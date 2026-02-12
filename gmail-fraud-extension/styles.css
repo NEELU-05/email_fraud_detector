@@ -1,0 +1,99 @@
+/* Main Banner Styles */
+.efd-banner {
+  font-family: 'Google Sans', Roboto, sans-serif;
+  padding: 12px 16px;
+  margin: 0 0 16px 0;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  animation: efd-slide-down 0.3s ease-out;
+  z-index: 999;
+  position: relative;
+}
+
+.efd-banner.efd-safe {
+  background-color: #e6f4ea;
+  border: 1px solid #1e8e3e;
+  color: #137333;
+}
+
+.efd-banner.efd-fraud {
+  background-color: #fce8e6;
+  border: 1px solid #c5221f;
+  color: #c5221f;
+}
+
+.efd-banner.efd-loading {
+  background-color: #f1f3f4;
+  border: 1px solid #dadce0;
+  color: #5f6368;
+}
+
+.efd-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.efd-icon {
+  font-size: 20px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.efd-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.efd-title {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.efd-subtitle {
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+.efd-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.efd-btn {
+  background: transparent;
+  border: 1px solid currentColor;
+  border-radius: 4px;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  color: inherit;
+  transition: all 0.2s;
+}
+
+.efd-btn:hover {
+  background-color: rgba(0,0,0,0.05);
+}
+
+@keyframes efd-slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Icons */
+.material-symbol {
+  font-family: 'Material Symbols Outlined'; 
+  /* Fallback if not loaded, mostly relying on emoji/unicode for simplicity in extension without ext resource loading issues */
+}

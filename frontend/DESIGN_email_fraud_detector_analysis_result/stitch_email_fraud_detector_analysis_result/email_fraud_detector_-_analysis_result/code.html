@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Email Fraud Detector - Analysis Result</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ec1313",
+                        "background-light": "#f8f6f6",
+                        "background-dark": "#221010",
+                        "surface-dark": "#2f1616",
+                        "surface-border": "#482323",
+                        "text-muted": "#c99292",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white antialiased min-h-screen flex flex-col overflow-x-hidden">
+<!-- Top Navigation -->
+<header class="w-full border-b border-surface-border bg-background-light dark:bg-background-dark px-6 py-4 lg:px-10">
+<div class="mx-auto flex max-w-7xl items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+<span class="material-symbols-outlined text-3xl">shield_lock</span>
+</div>
+<h2 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">CyberGuard</h2>
+</div>
+<div class="flex items-center gap-4">
+<button class="flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
+<span class="material-symbols-outlined text-slate-600 dark:text-white" style="font-size: 24px;">settings</span>
+</button>
+<button class="flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg hover:bg-black/5 dark:hover:bg-white/5 transition-colors relative">
+<span class="material-symbols-outlined text-slate-600 dark:text-white" style="font-size: 24px;">notifications</span>
+<span class="absolute top-2 right-2 h-2 w-2 rounded-full bg-primary"></span>
+</button>
+<div class="h-10 w-10 overflow-hidden rounded-full border border-surface-border">
+<div class="h-full w-full bg-center bg-cover bg-no-repeat" data-alt="User profile avatar showing a man in a suit" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAljN2zQdRS3KEPp803xFuATzRC2Wu9IhNA2tC0hKzPSMrJIRGJHXXk0JO1xaoUkS_DK0dR5ywCca_m0e0-ww8s9uar8hCSailL6yfynOk_w9GSlgqbD1STe1i7nYxuehrpi6-SZb1QSH9UXLIOj9JOtJLpbn8Gu9g5da5LbFOFC71ktD1yZonVFEZ6OlHXZeBdSBZ39t69bZuJRu3W6Sd8CCEqWacGNfc7I9koB460OS5yRTWDMo31dkuKfn73ePOFUDaszzKS81U');"></div>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-1 px-4 py-8 md:px-8 lg:py-12">
+<div class="mx-auto max-w-5xl">
+<!-- Verdict Hero Section -->
+<div class="mb-12 flex flex-col items-center justify-center text-center">
+<div class="mb-6 flex h-24 w-24 items-center justify-center rounded-full bg-primary/10 ring-4 ring-primary/20">
+<span class="material-symbols-outlined text-6xl text-primary">gpp_bad</span>
+</div>
+<div class="mb-2 inline-flex items-center rounded-full bg-primary/10 px-4 py-1.5 border border-primary/20">
+<span class="mr-2 h-2 w-2 rounded-full bg-primary animate-pulse"></span>
+<span class="text-sm font-bold uppercase tracking-wider text-primary">High Risk Detected</span>
+</div>
+<h1 class="mb-2 text-5xl font-black tracking-tight text-slate-900 dark:text-white sm:text-6xl">FRAUD DETECTED</h1>
+<p class="text-xl font-medium text-text-muted">Probability Score: <span class="text-primary font-bold">82%</span></p>
+</div>
+<!-- Dashboard Grid -->
+<div class="grid grid-cols-1 gap-6 lg:grid-cols-12">
+<!-- Left Column: Risk Breakdown -->
+<div class="lg:col-span-7 flex flex-col gap-6">
+<div class="overflow-hidden rounded-xl border border-surface-border bg-white dark:bg-surface-dark shadow-sm">
+<div class="border-b border-surface-border px-6 py-4 flex justify-between items-center">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">Risk Scoring</h3>
+<button class="text-sm text-text-muted hover:text-white flex items-center gap-1 transition-colors">
+                                Details <span class="material-symbols-outlined text-base">arrow_forward</span>
+</button>
+</div>
+<div class="p-6 flex flex-col gap-8">
+<!-- Text Risk Bar -->
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-end">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-text-muted">text_fields</span>
+<p class="text-base font-medium text-slate-900 dark:text-white">Text Risk Score</p>
+</div>
+<p class="text-sm font-bold text-primary">90/100</p>
+</div>
+<div class="h-3 w-full rounded-full bg-surface-border/50">
+<div class="h-3 rounded-full bg-primary shadow-[0_0_10px_rgba(236,19,19,0.5)] transition-all duration-1000 ease-out" style="width: 90%;"></div>
+</div>
+<p class="text-xs text-text-muted flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">warning</span>
+                                    Phishing keywords &amp; urgency triggers detected
+                                </p>
+</div>
+<!-- URL Risk Bar -->
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-end">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-text-muted">link</span>
+<p class="text-base font-medium text-slate-900 dark:text-white">URL Risk Score</p>
+</div>
+<p class="text-sm font-bold text-[#f59e0b]">75/100</p>
+</div>
+<div class="h-3 w-full rounded-full bg-surface-border/50">
+<div class="h-3 rounded-full bg-[#f59e0b] shadow-[0_0_10px_rgba(245,158,11,0.3)] transition-all duration-1000 ease-out" style="width: 75%;"></div>
+</div>
+<p class="text-xs text-text-muted flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">public_off</span>
+                                    Suspicious domain redirection identified
+                                </p>
+</div>
+<!-- Attachment Risk Bar -->
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-end">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-text-muted">attachment</span>
+<p class="text-base font-medium text-slate-900 dark:text-white">Attachment Analysis</p>
+</div>
+<p class="text-sm font-bold text-green-500">10/100</p>
+</div>
+<div class="h-3 w-full rounded-full bg-surface-border/50">
+<div class="h-3 rounded-full bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.3)] transition-all duration-1000 ease-out" style="width: 10%;"></div>
+</div>
+<p class="text-xs text-text-muted flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">check_circle</span>
+                                    No malicious payloads found in attachments
+                                </p>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Email Context -->
+<div class="lg:col-span-5 flex flex-col">
+<div class="h-full overflow-hidden rounded-xl border border-surface-border bg-white dark:bg-surface-dark shadow-sm">
+<div class="border-b border-surface-border px-6 py-4">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">Email Context</h3>
+</div>
+<div class="p-6">
+<div class="grid grid-cols-[80px_1fr] gap-y-6 text-sm">
+<div class="text-text-muted font-medium py-1">Subject</div>
+<div class="text-slate-900 dark:text-white font-medium py-1 leading-normal">
+                                    Urgent: Account Verification Required
+                                </div>
+<div class="col-span-2 h-px bg-surface-border/50"></div>
+<div class="text-text-muted font-medium py-1">Sender</div>
+<div class="text-slate-900 dark:text-white font-medium py-1 break-all">
+                                    support@paypaI-security.com <br/>
+<span class="inline-flex items-center gap-1 rounded bg-red-500/10 px-1.5 py-0.5 text-xs font-bold text-red-500 mt-1">
+                                        Unverified Domain
+                                    </span>
+</div>
+<div class="col-span-2 h-px bg-surface-border/50"></div>
+<div class="text-text-muted font-medium py-1">Received</div>
+<div class="text-slate-900 dark:text-white font-medium py-1">
+                                    Oct 24, 2023, 10:42 AM
+                                </div>
+<div class="col-span-2 h-px bg-surface-border/50"></div>
+<div class="text-text-muted font-medium py-1">Origin</div>
+<div class="flex items-center gap-2 text-slate-900 dark:text-white font-medium py-1">
+<div class="h-5 w-8 overflow-hidden rounded bg-slate-700" data-alt="Abstract flag placeholder representing IP location" style="background: linear-gradient(to right, #ffffff 33%, #0033a0 33%, #0033a0 66%, #de2910 66%);"></div>
+<span>Paris, France (IP: 192.168.x.x)</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Action Bar -->
+<div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4 border-t border-surface-border/50 pt-8">
+<button class="w-full sm:w-auto flex items-center justify-center gap-2 rounded-lg bg-primary px-8 py-3 text-sm font-bold text-white shadow-lg shadow-red-900/20 hover:bg-red-600 transition-all focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-[#221010]">
+<span class="material-symbols-outlined">search_check</span>
+                    Analyze New Email
+                </button>
+<button class="w-full sm:w-auto flex items-center justify-center gap-2 rounded-lg border border-surface-border bg-transparent px-6 py-3 text-sm font-bold text-slate-900 dark:text-white hover:bg-surface-border/20 transition-all">
+<span class="material-symbols-outlined">download</span>
+                    Download Full Report
+                </button>
+<button class="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-3 text-sm font-medium text-text-muted hover:text-white transition-colors">
+<span class="material-symbols-outlined text-lg">flag</span>
+                    Report False Positive
+                </button>
+</div>
+</div>
+</main>
+</body></html>

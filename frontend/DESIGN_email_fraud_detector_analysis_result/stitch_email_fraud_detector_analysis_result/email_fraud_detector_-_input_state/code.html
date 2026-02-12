@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Email Fraud Detector</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#ec1313",
+              "primary-hover": "#c91010",
+              "background-light": "#f8f6f6",
+              "background-dark": "#121212", 
+              "surface-dark": "#1E1E1E",
+              "border-dark": "#333333",
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"],
+              "mono": ["JetBrains Mono", "monospace"],
+            },
+            borderRadius: {
+              "DEFAULT": "0.375rem", 
+              "lg": "0.5rem", 
+              "xl": "0.75rem", 
+              "full": "9999px"
+            },
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display antialiased text-slate-900 dark:text-white transition-colors duration-200">
+<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+<!-- Header -->
+<header class="sticky top-0 z-50 flex items-center justify-between border-b border-gray-200 dark:border-border-dark bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md px-6 py-4 lg:px-10">
+<div class="flex items-center gap-3">
+<div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+<span class="material-symbols-outlined text-2xl" data-icon="shield">shield</span>
+</div>
+<h2 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Email Fraud Detector</h2>
+</div>
+<button aria-label="Settings" class="flex items-center justify-center rounded-lg p-2 text-slate-500 hover:bg-slate-200 dark:text-gray-400 dark:hover:bg-white/5 transition-colors">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+</header>
+<!-- Main Content -->
+<main class="flex flex-1 flex-col items-center justify-center p-4 sm:p-6 lg:p-8">
+<div class="w-full max-w-[800px] animate-fade-in-up">
+<!-- Main Card -->
+<div class="relative overflow-hidden rounded-xl border border-gray-200 bg-white shadow-xl dark:border-border-dark dark:bg-surface-dark dark:shadow-black/40">
+<!-- Top Gradient Line -->
+<div class="absolute top-0 left-0 h-1 w-full bg-gradient-to-r from-primary/60 via-primary to-primary/60"></div>
+<div class="p-6 md:p-8 lg:p-10">
+<!-- Section Title -->
+<div class="mb-8 text-center">
+<h1 class="mb-2 text-2xl font-bold leading-tight tracking-tight sm:text-3xl">Paste Raw Email Content</h1>
+<p class="text-slate-500 dark:text-gray-400">Insert headers and body text below for security analysis.</p>
+</div>
+<!-- Input Area -->
+<div class="group relative mb-8">
+<label class="sr-only" for="email-content">Raw Email Content</label>
+<!-- Input Wrapper -->
+<div class="relative">
+<textarea class="form-textarea w-full resize-none rounded-lg border-gray-300 bg-slate-50 p-4 font-mono text-sm leading-relaxed text-slate-800 placeholder-slate-400 shadow-sm focus:border-primary focus:ring-1 focus:ring-primary dark:border-border-dark dark:bg-[#0f0f0f] dark:text-gray-300 dark:placeholder-gray-600 min-h-[320px] transition-all duration-200 scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-transparent" id="email-content" placeholder="Received: from mail.example.com ([192.0.2.1])
+by mx.google.com with ESMTPS id...
+
+Dear User,
+Your account security requires immediate attention..."></textarea>
+<!-- Decorative corner markers for "tech" feel -->
+<div class="pointer-events-none absolute left-0 top-0 h-4 w-4 rounded-tl-lg border-l-2 border-t-2 border-primary/30"></div>
+<div class="pointer-events-none absolute right-0 top-0 h-4 w-4 rounded-tr-lg border-r-2 border-t-2 border-primary/30"></div>
+<div class="pointer-events-none absolute bottom-0 left-0 h-4 w-4 rounded-bl-lg border-b-2 border-l-2 border-primary/30"></div>
+<div class="pointer-events-none absolute bottom-0 right-0 h-4 w-4 rounded-br-lg border-b-2 border-r-2 border-primary/30"></div>
+</div>
+</div>
+<!-- Action Button -->
+<div class="flex justify-center">
+<button class="group relative flex w-full sm:w-auto min-w-[240px] cursor-pointer items-center justify-center gap-3 overflow-hidden rounded-lg bg-primary px-8 py-3.5 text-base font-bold text-white shadow-lg shadow-primary/20 transition-all duration-200 hover:bg-primary-hover hover:shadow-primary/40 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-offset-surface-dark">
+<span class="material-symbols-outlined transition-transform duration-300 group-hover:rotate-12" data-icon="search_check">search_check</span>
+<span class="tracking-wide">Analyze Email</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Features / Help Text Grid -->
+<div class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3 text-center sm:text-left opacity-70">
+<div class="flex flex-col items-center sm:items-start gap-2 p-3">
+<span class="material-symbols-outlined text-primary" data-icon="lock">lock</span>
+<h3 class="text-sm font-semibold text-slate-900 dark:text-white">Secure Analysis</h3>
+<p class="text-xs text-slate-500 dark:text-gray-400">Data is processed locally in-memory.</p>
+</div>
+<div class="flex flex-col items-center sm:items-start gap-2 p-3 border-l-0 sm:border-l border-gray-200 dark:border-white/10">
+<span class="material-symbols-outlined text-primary" data-icon="code">code</span>
+<h3 class="text-sm font-semibold text-slate-900 dark:text-white">Header Inspection</h3>
+<p class="text-xs text-slate-500 dark:text-gray-400">Deep scan of DKIM, SPF, and DMARC.</p>
+</div>
+<div class="flex flex-col items-center sm:items-start gap-2 p-3 border-l-0 sm:border-l border-gray-200 dark:border-white/10">
+<span class="material-symbols-outlined text-primary" data-icon="psychology">psychology</span>
+<h3 class="text-sm font-semibold text-slate-900 dark:text-white">AI Detection</h3>
+<p class="text-xs text-slate-500 dark:text-gray-400">Pattern recognition for phishing.</p>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="py-8 text-center">
+<p class="text-sm text-slate-500 dark:text-gray-500">
+                For educational and research purposes only.
+            </p>
+</footer>
+</div>
+</body></html>
