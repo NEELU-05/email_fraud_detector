@@ -165,6 +165,31 @@ function getSubject() {
     return "Unknown Subject";
 }
 
+// Promisified chrome.runtime.sendMessage for better error handling
+function sendMessagePromise(message) {
+    return new Promise((resolve, reject) => {
+        try {
+            chrome.runtime.sendMessage(message, (response) => {
+                // Check for chrome.runtime errors first
+                if (chrome.runtime.lastError) {
+                    reject(new Error(chrome.runtime.lastError.message));
+                    return;
+                }
+                
+                // Check if response was received
+                if (!response) {
+                    reject(new Error("No response from background script"));
+                    return;
+                }
+                
+                resolve(response);
+            });
+        } catch (err) {
+            reject(err);
+        }
+    });
+}
+
 // Forward analysis request to background script to avoid Mixed Content issues
 async function analyzeEmail(text, container, msgId) {
     // Inject Loading Banner
@@ -174,43 +199,45 @@ async function analyzeEmail(text, container, msgId) {
     console.log("[EFD] Sending to Background Script...");
 
     try {
-        chrome.runtime.sendMessage({
+        // Send message with promise wrapper
+        const response = await sendMessagePromise({
             action: "analyzeEmail",
             text: text
-        }, (response) => {
-            // Check for message passing errors
-            if (chrome.runtime.lastError) {
-                console.error("[EFD] Message error:", chrome.runtime.lastError);
-                let errorMsg = chrome.runtime.lastError.message;
-
-                // User-friendly message for invalidated context (reload)
-                if (errorMsg && errorMsg.includes("Extension context invalidated")) {
-                    errorMsg = "Extension updated. Please refresh the page.";
-                }
-
-                handleError(banner, container, errorMsg);
-                return;
-            }
-
-            // Check if response exists
-            if (!response) {
-                console.error("[EFD] No response received");
-                handleError(banner, container, "No response from background script");
-                return;
-            }
-
-            if (response.success) {
-                console.log("[EFD] Analysis complete:", response.data.verdict);
-                updateBanner(banner, response.data);
-                container.dataset.efdScanned = "true";
-            } else {
-                console.error("[EFD] Backend error:", response.error);
-                handleError(banner, container, response.error);
-            }
         });
-    } catch (e) {
-        console.error("[EFD] Exception sending message:", e);
-        handleError(banner, container, e.message);
+
+        // Handle success
+        if (response.success && response.data) {
+            console.log("[EFD] Analysis complete:", response.data.verdict);
+            updateBanner(banner, response.data);
+            container.dataset.efdScanned = "true";
+        } 
+        // Handle backend error
+        else if (!response.success) {
+            const errorMsg = response.error || "Backend error occurred";
+            console.error("[EFD] Backend error:", errorMsg);
+            handleError(banner, container, errorMsg);
+        }
+        // Handle unexpected response format
+        else {
+            throw new Error("Unexpected response format");
+        }
+    } catch (error) {
+        console.error("[EFD] Exception in analyzeEmail:", error);
+        
+        let errorMsg = error.message || "Analysis failed";
+        
+        // User-friendly messages for common errors
+        if (errorMsg.includes("Extension context invalidated")) {
+            errorMsg = "Extension was updated. Please refresh the page.";
+        } else if (errorMsg.includes("not available") || errorMsg.includes("undefined")) {
+            errorMsg = "Background script unavailable. Please reload the extension.";
+        } else if (errorMsg.includes("closed")) {
+            errorMsg = "Connection lost. Please try again.";
+        } else if (errorMsg.includes("localhost") || errorMsg.includes("8000")) {
+            errorMsg = "Cannot reach backend at localhost:8000. Is it running?";
+        }
+        
+        handleError(banner, container, errorMsg);
     }
 }
 

@@ -18,28 +18,55 @@ document.addEventListener('DOMContentLoaded', async () => {
                     action: "updateSettings",
                     autoScan: toggle.checked
                 }, (response) => {
-                    // Start checking for errors to suppress "Receiving end does not exist"
+                    // Suppress errors - content script might not be active on this tab
                     if (chrome.runtime.lastError) {
-                        // Suppress error - content script might not be active on this tab
+                        console.log("[Popup] Content script not on this tab");
                     }
                 });
             }
         });
     });
 
-    // Check Backend Health
-    try {
-        const response = await fetch('http://localhost:8000/health');
-        if (response.ok) {
-            backendDot.classList.add('online');
-            backendDot.classList.remove('offline');
-            backendText.textContent = "Backend Connected";
-        } else {
-            throw new Error('Not healthy');
+    // Check Backend Health with retry logic
+    async function checkBackendHealth() {
+        const endpoints = [
+            'http://127.0.0.1:8000/health',
+            'http://localhost:8000/health'
+        ];
+        
+        for (const endpoint of endpoints) {
+            try {
+                const response = await fetch(endpoint, { 
+                    timeout: 5000,
+                    mode: 'no-cors' // Avoid CORS issues
+                });
+                
+                // For no-cors, we can only check if request succeeded
+                if (response.status === 0 || response.ok) {
+                    backendDot.classList.add('online');
+                    backendDot.classList.remove('offline');
+                    backendText.textContent = "Backend Connected";
+                    return true;
+                }
+            } catch (e) {
+                console.log(`[Popup] Endpoint ${endpoint} failed:`, e.message);
+            }
         }
-    } catch (e) {
+        
+        // All endpoints failed
         backendDot.classList.add('offline');
         backendDot.classList.remove('online');
         backendText.textContent = "Backend Disconnected";
+        return false;
     }
+    
+    // Check backend on popup open
+    checkBackendHealth();
+    
+    // Retry every 3 seconds if offline
+    setInterval(() => {
+        if (backendDot.classList.contains('offline')) {
+            checkBackendHealth();
+        }
+    }, 3000);
 });
