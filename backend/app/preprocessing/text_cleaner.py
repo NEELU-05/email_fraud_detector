@@ -5,6 +5,18 @@ Handles text cleaning, tokenization, and URL extraction.
 
 import re
 from typing import List, Tuple
+
+def _ensure_nltk_data():
+    """Download NLTK data if missing (runs silently)."""
+    try:
+        import nltk
+        for pkg in ('stopwords', 'punkt', 'wordnet', 'omw-1.4'):
+            nltk.download(pkg, quiet=True)
+    except Exception:
+        pass
+
+_ensure_nltk_data()
+
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import word_tokenize
@@ -18,9 +30,7 @@ class TextCleaner:
         try:
             self.stop_words = set(stopwords.words('english'))
         except LookupError:
-            # If stopwords not downloaded, use empty set
             self.stop_words = set()
-            print("Warning: NLTK stopwords not found. Run: nltk.download('stopwords')")
         
         self.lemmatizer = WordNetLemmatizer()
         
@@ -124,12 +134,9 @@ class TextCleaner:
             List of processed tokens
         """
         try:
-            # Tokenize
             tokens = word_tokenize(text)
         except LookupError:
-            # Fallback to simple split if punkt not available
             tokens = text.split()
-            print("Warning: NLTK punkt not found. Run: nltk.download('punkt')")
         
         # Remove stopwords and lemmatize
         processed_tokens = [
@@ -150,18 +157,26 @@ class TextCleaner:
         Returns:
             Tuple of (cleaned_text, urls_extracted)
         """
+        if not text or not isinstance(text, str):
+            return " ", []
+        try:
+            text = str(text)[:50000]  # Limit length, ensure string
+        except Exception:
+            return " ", []
         # Extract URLs before cleaning
         urls = self.extract_urls(text)
-        
         # Clean text
-        cleaned = self.clean_text(text)
-        
+        try:
+            cleaned = self.clean_text(text)
+        except Exception:
+            cleaned = re.sub(r'[^a-zA-Z\s]', '', text.lower())[:5000]
         # Tokenize and lemmatize
-        tokens = self.tokenize_and_lemmatize(cleaned)
-        
+        try:
+            tokens = self.tokenize_and_lemmatize(cleaned)
+        except Exception:
+            tokens = [t for t in cleaned.split() if len(t) > 2]
         # Join tokens back into string
-        processed_text = ' '.join(tokens)
-        
+        processed_text = ' '.join(tokens) if tokens else " "
         return processed_text, urls
 
 

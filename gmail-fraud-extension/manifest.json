@@ -1,16 +1,14 @@
 {
   "manifest_version": 3,
   "name": "Email Fraud Detector",
-  "version": "1.0",
+  "version": "1.1",
   "description": "Real-time AI fraud detection for Gmail using your local backend.",
-  "permissions": [
-    "storage",
-    "activeTab",
-    "scripting"
-  ],
+  "permissions": ["storage", "activeTab", "scripting"],
   "host_permissions": [
     "https://mail.google.com/*",
-    "http://localhost:8000/*"
+    "https://*.google.com/mail/*",
+    "http://localhost:8000/*",
+    "http://127.0.0.1:8000/*"
   ],
   "action": {
     "default_popup": "popup.html",
@@ -20,14 +18,16 @@
       "128": "icons/icon128.png"
     }
   },
-  "content_scripts": [
-    {
-      "matches": ["https://mail.google.com/*"],
-      "js": ["content.js"],
-      "css": ["styles.css"],
-      "run_at": "document_idle"
-    }
-  ],
+  "content_scripts": [{
+    "matches": [
+      "https://mail.google.com/*",
+      "https://*.google.com/mail/*"
+    ],
+    "js": ["content.js"],
+    "css": ["styles.css"],
+    "run_at": "document_idle",
+    "all_frames": false
+  }],
   "background": {
     "service_worker": "background.js"
   },
@@ -36,10 +36,8 @@
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
   },
-  "web_accessible_resources": [
-    {
-      "resources": ["icons/*.png"],
-      "matches": ["<all_urls>"]
-    }
-  ]
+  "web_accessible_resources": [{
+    "resources": ["icons/*.png"],
+    "matches": ["<all_urls>"]
+  }]
 }

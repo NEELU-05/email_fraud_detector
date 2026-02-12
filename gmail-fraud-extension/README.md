@@ -29,6 +29,19 @@ This Chrome Extension integrates with your local Email Fraud Detection API to pr
    - You should see a banner appear at the top of the email content!
 
 ## 🛠 Troubleshooting
-- **No Banner?** Refresh the Gmail page. Ensure the extension is enabled.
-- **Error in Banner?** Check if your backend server is running.
-- **Logs:** Right-click the extension icon -> Inspect Popup, or checks Chrome's extension error logs.
+
+### No banner appears when opening emails
+- **Refresh Gmail** (F5 or Ctrl+R) after loading the extension.
+- Use **Standard view** in Gmail, not Basic HTML (Settings → See all settings → scroll to "Default view").
+- Click the extension icon → ensure "Auto-Scan Emails" is ON and "Backend Connected" shows green.
+- Wait 2–3 seconds after opening an email; the banner can take a moment to appear.
+
+### "Analysis Failed" or "Backend Disconnected"
+- Start the backend: `cd backend && uvicorn app.main:app --reload --port 8000`
+- Confirm it works: open `http://localhost:8000/health` in your browser.
+- On Windows, run with UTF-8: `$env:PYTHONIOENCODING='utf-8'; uvicorn ...`
+
+### Extension not loading or shows errors
+- Go to `chrome://extensions` → ensure Developer mode is ON.
+- Click **Reload** on the extension after any code changes.
+- Check for errors: click "Errors" or "Service worker" under the extension.

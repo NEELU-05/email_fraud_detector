@@ -20,14 +20,20 @@ This will open the web interface in your default browser!
 
 ### Step 2: Start Backend API (Optional for full functionality)
 
-Open a terminal in the `backend/` directory and run:
+**Windows (fixes "API Error: 500"):** Run `backend/start_backend.bat` or:
 
 ```powershell
-# Activate virtual environment
+cd backend
+$env:PYTHONIOENCODING='utf-8'
 .\venv\Scripts\activate
+uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
+```
 
-# Start the API server
-python -m uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
+**Mac/Linux:**
+```bash
+cd backend
+source venv/bin/activate
+uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
 ```
 
 The API will be available at: `http://localhost:8000`

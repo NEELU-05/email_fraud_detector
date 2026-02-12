@@ -30,28 +30,51 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 });
 
 /**
- * Main Observer to detect when an email is opened
- * Debounced to prevent excessive scans on rapid DOM mutations
+ * Trigger a scan (debounced)
  */
-const observer = new MutationObserver(() => {
+function triggerScan() {
     if (!isAutoScanEnabled) return;
     if (scanDebounceTimer) clearTimeout(scanDebounceTimer);
     scanDebounceTimer = setTimeout(() => {
         scanDebounceTimer = null;
         detectAndScanEmails();
     }, SCAN_DEBOUNCE_MS);
-});
+}
 
-observer.observe(document.body, {
-    childList: true,
-    subtree: true
-});
+/**
+ * Setup observer - must run when document.body exists (Gmail loads async)
+ */
+function setupObserver() {
+    const body = document.body;
+    if (!body) {
+        setTimeout(setupObserver, 100);
+        return;
+    }
+
+    const observer = new MutationObserver(triggerScan);
+    observer.observe(body, { childList: true, subtree: true });
+
+    // Gmail uses hash navigation - trigger scan when user opens different email
+    window.addEventListener('hashchange', () => setTimeout(triggerScan, 800));
+
+    // Initial scan after Gmail loads (handles slow/async render)
+    setTimeout(triggerScan, 2000);
+}
+
+setupObserver();
 
 /**
  * Multiple fallback selectors for Gmail's email body (DOM changes frequently)
- * .a3s.aiL = current standard view, .a3s = fallback, .ii = older structure
+ * .a3s = body content, .ii = message container, [role="main"] = main area
  */
-const EMAIL_BODY_SELECTORS = ['.a3s.aiL', '.a3s', '.ii.gt .a3s'];
+const EMAIL_BODY_SELECTORS = [
+    '.a3s.aiL',      // Standard view
+    '.a3s',          // Fallback
+    '.ii.gt .a3s',   // Thread view
+    'div.ii',        // Older structure
+    '[role="main"] .a3s',
+    '[role="main"] .ii'
+];
 
 /**
  * Find all email body elements - tries selectors until one returns results

@@ -104,6 +104,8 @@ class FraudPredictor:
 
     def _predict_sklearn(self, processed_text: str) -> Tuple[float, int]:
         """Inference using Scikit-Learn Logistic Regression."""
+        if not processed_text or not processed_text.strip():
+            processed_text = " "  # Avoid empty input to vectorizer
         # TF-IDF Vectorization
         features = self.vectorizer.transform([processed_text])
         
